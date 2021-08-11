@@ -35681,5 +35681,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8910869952386821045, guid: 3234d03d75fb18d4eb71b86e1d3fda5b,
+        type: 3}
+      propertyPath: ledgeClimbYOffset1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8910869952386821045, guid: 3234d03d75fb18d4eb71b86e1d3fda5b,
+        type: 3}
+      propertyPath: ledgeClimbYOffset2
+      value: 1.8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3234d03d75fb18d4eb71b86e1d3fda5b, type: 3}
