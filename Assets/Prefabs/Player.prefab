@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 844650217789276172}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -113,23 +113,27 @@ MonoBehaviour:
   movementSpeed: 8
   jumpForce: 16
   wallSlideSpeed: 1.5
+  airDragMultiplier: 0.95
   airJumpCountMax: 1
+  pfAirJumpIcon: {fileID: 7647877780592067445, guid: 77667b149090b404c903405e9e63e4f0,
+    type: 3}
   groundCheck: {fileID: 1023718969}
   wallCheck: {fileID: 7264460266503263856}
   ledgeCheck: {fileID: 567006873}
-  pfAirJumpIcon: {fileID: 7647877780592067445, guid: 77667b149090b404c903405e9e63e4f0,
-    type: 3}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 256
   xWallJumpForce: 6
   yWallJumpForce: 13
   wallJumpTime: 0.05
-  airDragMultiplier: 0.95
   ledgeClimbXOffset1: 0.3
   ledgeClimbYOffset1: 0
   ledgeClimbXOffset2: 0.5
   ledgeClimbYOffset2: 1.8
+  dashTime: 0.2
+  dashSpeed: 50
+  distanceBetweenImages: 0.1
+  dashCooldown: 2.5
 --- !u!212 &8910869952386821003
 SpriteRenderer:
   m_ObjectHideFlags: 0

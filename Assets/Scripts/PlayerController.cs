@@ -6,26 +6,36 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float movementSpeed;
     [SerializeField] private float jumpForce;
     [SerializeField] private float wallSlideSpeed;
+    [SerializeField] private float airDragMultiplier;
     [SerializeField] private int airJumpCountMax;
+    [SerializeField] private Transform pfAirJumpIcon;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Transform wallCheck;
     [SerializeField] private Transform ledgeCheck;
-    [SerializeField] private Transform pfAirJumpIcon;
     [SerializeField] private LayerMask whatIsGround;
+
     [SerializeField] private float xWallJumpForce;
     [SerializeField] private float yWallJumpForce;
     [SerializeField] private float wallJumpTime;
-    [SerializeField] private float airDragMultiplier;
+
+    [SerializeField] private float ledgeClimbXOffset1 = 0f;
+    [SerializeField] private float ledgeClimbYOffset1 = 0f;
+    [SerializeField] private float ledgeClimbXOffset2 = 0f;
+    [SerializeField] private float ledgeClimbYOffset2 = 0f;
+
+    [SerializeField] private float dashTime;                                     //how long will dash take place
+    [SerializeField] private float dashSpeed;                                    // speed of dash
+    [SerializeField] private float distanceBetweenImages;                        // distance between dash image while dashing
+    [SerializeField] private float dashCooldown;                                //how long we need to wait before dashing again
 
     private int airJumpCount;
 
     private float horizontal;
     private float groundCheckRadius = 0.3f;
     private float wallCheckDistance = 0.2f;
-    public float ledgeClimbXOffset1 = 0f;
-    public float ledgeClimbYOffset1 = 0f;
-    public float ledgeClimbXOffset2 = 0f;
-    public float ledgeClimbYOffset2 = 0f;
+    private float dashTimeLeft;                                                //how longer dash should be happening
+    private float lastImageXPos;                                               //keep track of last X Co-Ordinate when we placed AfterImage
+    private float lastDash = -100;                                             //Last time we stated dash & will be used to check cool down. -100 so we can dash as soon we start the game 
 
     private bool isFacingRight = true;
     private bool isGrounded;
@@ -36,6 +46,8 @@ public class PlayerController : MonoBehaviour
     private bool wallJump;
     private bool canClimbLedge;
     private bool ledgeDetected = false;
+    private bool dash;
+    private bool isDashing;                                         // isDashing or not
 
     private Vector2 direction = Vector2.right;
     private Vector2 ledgePosBot;                                    // to store the position of raycast from where it was cast when Ledge was detected
@@ -65,18 +77,21 @@ public class PlayerController : MonoBehaviour
         HorizontalMovement();
         VerticalAnimation();
         VerticalMovement();
+        Dash();
         IsGrounded();
         CheckSurroundings();
         WallSliding();
         WallJump();
         CheckLedgeClimb();
+        CheckDash();
     }
 
     #region Input
     private void CheckInput()
     {
         horizontal = Input.GetAxisRaw("Horizontal");              // Horizontal Movement Input (values between -1 - 0 - 1)
-        vertical = Input.GetButtonDown("Jump");                   // Vertical Movement Input          
+        vertical = Input.GetButtonDown("Jump");                   // Vertical Movement Input
+        dash = Input.GetButtonDown("Dash");
     }
 
     #endregion
@@ -108,7 +123,53 @@ public class PlayerController : MonoBehaviour
         //    anim.SetFloat("jumpVelocity", Mathf.Abs(rb.velocity.y));     // for Jump BlendTree 
     }
 
+    private void Dash()
+    {
+        if (dash)
+        {
+            if (Time.time > (lastDash + dashCooldown))
+            {
+                AttemptToDash();
+            }
+        }
+    }
+
     #endregion
+    private void AttemptToDash()
+    {
+        isDashing = true;
+        dashTimeLeft = dashTime;
+        lastDash = Time.time;
+
+        PlayerAfterImagePool.Instance.GetFromPool();
+        lastImageXPos = transform.position.x;
+    }
+
+    private void CheckDash()
+    {
+        if (isDashing)
+        {
+            if (dashTimeLeft > 0)
+            {
+            // canMove = false;
+            //  canFlip = false;
+                rb.velocity = new Vector2(dashSpeed * horizontal, rb.velocity.y);
+                dashTimeLeft -= Time.deltaTime;
+
+                if (Mathf.Abs(transform.position.x - lastImageXPos) > distanceBetweenImages)     //check enough distance have passed to place another AfterImage
+                {
+                    PlayerAfterImagePool.Instance.GetFromPool();
+                    lastImageXPos = transform.position.x;
+                }
+            }
+            if(dashTimeLeft <= 0 || isTouchingWall)
+            {
+                isDashing = false;
+                // canMove = true;
+                //  canFlip = true;
+            }
+        }
+    }
 
     #region Flipping
     private void CheckInputDirection()
@@ -124,7 +185,7 @@ public class PlayerController : MonoBehaviour
     }
     private void Flip()
     {
-        if (!isWallSliding)
+        if (!isWallSliding && !isDashing)
         {
             isFacingRight = !isFacingRight;                      // if isFacingRight is true then it will be false 
             Vector2 scale = transform.localScale;
@@ -215,7 +276,7 @@ public class PlayerController : MonoBehaviour
     #region LedgeClimb
     private void CheckLedgeClimb()
     {
-        if (ledgeDetected && !canClimbLedge && rb.velocity.y < 0 )
+        if (ledgeDetected && !canClimbLedge && rb.velocity.y < 0)
         {
             canClimbLedge = true;
             if (isFacingRight)
@@ -238,7 +299,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    public void FinishLedgeClimb()
+    public void FinishLedgeClimb()                           // calling this function from unity animation events after last sprite. 
     {
         canClimbLedge = false;
         ledgeDetected = false;
