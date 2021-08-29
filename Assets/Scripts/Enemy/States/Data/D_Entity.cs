@@ -9,5 +9,9 @@ public class D_Entity : ScriptableObject                    // we need to create
     public float wallCheckDistance = 0.2f;
     public float ledgeCheckDistance = 0.45f;
 
-    public LayerMask whatIsGround; 
+    public float MinAgroDistance = 3f;
+    public float MaxAgroDistance = 4f; 
+
+    public LayerMask whatIsGround;
+    public LayerMask whatIsPlayer;
 }

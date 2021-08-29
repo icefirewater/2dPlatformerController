@@ -24,7 +24,11 @@ public class E1_MoveState : MoveState
     {
         base.LogicUpdate();
 
-        if (!isDetectingLedge || isTouchingWall)
+        if (isPlayerDetectedInMinAgroRange)
+        {
+            stateMachine.ChangeState(enemy.playerDetectedState);
+        }
+        else if (!isDetectingLedge || isTouchingWall)
         {
             enemy.idleState.SetFlipAfterIdle(true);
             stateMachine.ChangeState(enemy.idleState);
