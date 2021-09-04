@@ -14,13 +14,13 @@ public class IdleState : State
         this.stateData = _stateData;
     }
 
+
     public override void Enter()
     {
         base.Enter();
         entity.SetVelocity(0f);
         isIdleTimeOver = false;
         SetRandomIdleTime();
-        isPlayerDetectedInMinAgroRange = entity.CheckPlayerInMinAgroRange();
     }
 
     public override void Exit()
@@ -46,7 +46,6 @@ public class IdleState : State
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
-        isPlayerDetectedInMinAgroRange = entity.CheckPlayerInMinAgroRange();
     }
 
     public void SetFlipAfterIdle(bool _flip)            // Setter for flipAfterIdle
@@ -57,5 +56,12 @@ public class IdleState : State
     private void SetRandomIdleTime()
     {
         idleTime = Random.Range(stateData.minIdleTime, stateData.maxIdleTime);
+    }
+
+    public override void DoChecks()
+    {
+        base.DoChecks();
+
+        isPlayerDetectedInMinAgroRange = entity.CheckPlayerInMinAgroRange();
     }
 }
