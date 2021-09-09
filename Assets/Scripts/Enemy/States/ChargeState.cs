@@ -10,6 +10,7 @@ public class ChargeState : State
     protected bool isDetectingLedge;
     protected bool isDetectingWall;
     protected bool isChargedTimeOver;
+    protected bool performCloseRangeAction;
 
     public ChargeState(Entity _entity, FiniteStateMachine _stateMachine, string _animBoolName, D_ChargeState _stateData) : base(_entity, _stateMachine, _animBoolName)
     {
@@ -46,12 +47,16 @@ public class ChargeState : State
     {
         base.PhysicsUpdate();
     }
+    
     public override void DoChecks()
     {
         base.DoChecks();
 
         isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
+        
         isDetectingWall = entity.CheckWall();
         isDetectingLedge = entity.CheckLedge();
+
+        performCloseRangeAction = entity.CheckPlayerInCloseRangeAction();
     }
 }

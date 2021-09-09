@@ -8,8 +8,8 @@ public class Enemy1 : Entity
     public E1_MoveState moveState { get; private set; }
     public E1_PlayerDetectedState playerDetectedState { get; private set; }
     public E1_ChargeState chargeState { get; private set; }
-
     public E1_LookForPlayer lookForPlayerState { get; private set; } 
+    public E1_MeleeAttackState meleeAttackState { get; private set; }
 
 
     [SerializeField] private D_IdleState idleStateData;                                                                   // get ref
@@ -17,6 +17,8 @@ public class Enemy1 : Entity
     [SerializeField] private D_PlayerDetectedState playerDetectedData;
     [SerializeField] private D_ChargeState chargeStateData;
     [SerializeField] private D_LookForPlayer lookForPlayerData;
+    [SerializeField] private D_MeleeAttack meleeAttackStateData;
+    [SerializeField] private Transform meleeAttackPosition;
 
     public override void Start()
     {
@@ -27,7 +29,15 @@ public class Enemy1 : Entity
         playerDetectedState = new E1_PlayerDetectedState(this, stateMachine, "PlayerDetected", playerDetectedData, this);
         chargeState = new E1_ChargeState(this, stateMachine, "Charge", chargeStateData, this);
         lookForPlayerState = new E1_LookForPlayer(this, stateMachine, "LookForPlayer", lookForPlayerData, this);
+        meleeAttackState = new E1_MeleeAttackState(this, stateMachine, "MeleeAttack", meleeAttackPosition, meleeAttackStateData, this);
 
         stateMachine.Initialize(moveState);
+    }
+
+    public override void OnDrawGizmos()
+    {
+        base.OnDrawGizmos();
+
+        Gizmos.DrawWireSphere(meleeAttackPosition.position, meleeAttackStateData.attackRadius);
     }
 }

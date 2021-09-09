@@ -10,7 +10,7 @@ public class PlayerCombatController : MonoBehaviour
     private bool gotInput, isAttacking, isFirstAttack;                        // hold the input from player so if player hit just before he is able to hit, the player will still hit once he is able to hit  
 
     private float lastInputTime = Mathf.NegativeInfinity;                     // will store last time player had attacked & mathf.negativeInfinity will always attack from the start of the game
-    private float[] attackDetails = new float[2];
+    private AttackDetails attackDetails;
     //Ref
     private Animator anim;                                                    // hold the ref to Animator component
     private PlayerController player;
@@ -69,8 +69,8 @@ public class PlayerCombatController : MonoBehaviour
     {
         Collider2D[] detectedObject = Physics2D.OverlapCircleAll(attackHitBoxPos.position, attack1Radius, whatIsDamagable);
 
-        attackDetails[0] = attack1Damage;
-        attackDetails[1] = transform.position.x;
+        attackDetails.damageAmount = attack1Damage;
+        attackDetails.position = transform.position;
 
         foreach (Collider2D col in detectedObject)
         {
@@ -86,15 +86,15 @@ public class PlayerCombatController : MonoBehaviour
         anim.SetBool("attack1", false);
     }
 
-    private void Damage(float[] _attackDetails)
+    private void Damage(AttackDetails _attackDetails)
     {
         if (!player.GetDashStatus())
         {
             int direction;
 
-            playerStats.DecreaseHealth(attackDetails[0]);                                           // damage player here using attackDeatails[0]
+            playerStats.DecreaseHealth(attackDetails.damageAmount);                                           // damage player here using attackDeatails[0]
 
-            if (_attackDetails[1] < transform.position.x)
+            if (attackDetails.position.x < transform.position.x)
             {
                 direction = 1;
             }

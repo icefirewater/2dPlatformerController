@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "newEntityData", menuName = "Data/EntityData/BaseData")]
+[CreateAssetMenu(fileName = "newEntityData", menuName = "Data/Entity Data/Base Data")]
 
 public class D_Entity : ScriptableObject                    // we need to create Data objects in Unity & this is something ScriptableObject allows us to do
 {
     public float wallCheckDistance = 0.2f;
     public float ledgeCheckDistance = 0.45f;
 
-    public float MinAgroDistance = 3f;
-    public float MaxAgroDistance = 4f; 
+    public float minAgroDistance = 3f;
+    public float maxAgroDistance = 4f;
 
+    public float closeRangeActionDistance = 1.0f;
     public LayerMask whatIsGround;
     public LayerMask whatIsPlayer;
 }
