@@ -101,11 +101,11 @@ GameObject:
   - component: {fileID: 8910869952386821002}
   - component: {fileID: 8910869952386821045}
   - component: {fileID: 1014591825909172493}
+  - component: {fileID: 5033257558057960078}
   - component: {fileID: 8910869952386821003}
   - component: {fileID: 8910869952386821000}
   - component: {fileID: 8910869952386821001}
   - component: {fileID: 844650217789276172}
-  - component: {fileID: 5033257558057960078}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -193,6 +193,23 @@ MonoBehaviour:
   whatIsDamagable:
     serializedVersion: 2
     m_Bits: 512
+--- !u!114 &5033257558057960078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8910869952386821006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0142b1e76b86f5746a31da6d4cdd96c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 50
+  deathBloodParticle: {fileID: 6973840520826084357, guid: 123a8f48fb319724799ad291fbf131c8,
+    type: 3}
+  deathChunkParticle: {fileID: 1482411589124549042, guid: 11ab0c1767df18c47a4ecc7832d158ab,
+    type: 3}
 --- !u!212 &8910869952386821003
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -310,23 +327,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &5033257558057960078
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8910869952386821006}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0142b1e76b86f5746a31da6d4cdd96c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 50
-  deathBloodParticle: {fileID: 6973840520826084357, guid: 123a8f48fb319724799ad291fbf131c8,
-    type: 3}
-  deathChunkParticle: {fileID: 1482411589124549042, guid: 11ab0c1767df18c47a4ecc7832d158ab,
-    type: 3}
 --- !u!1 &9208750176505156739
 GameObject:
   m_ObjectHideFlags: 0

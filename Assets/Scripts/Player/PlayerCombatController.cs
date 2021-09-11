@@ -3,14 +3,14 @@
 public class PlayerCombatController : MonoBehaviour
 {
     [SerializeField] private bool combatEnabled;                              // control whether we want our character to Attack/Hit other GO or not 
-    [SerializeField] private float inputTimer, attack1Radius, attack1Damage;
+    [SerializeField] private float inputTimer, attack1Radius, attack1Damage, stunDamageAmount = 1f;
     [SerializeField] private Transform attackHitBoxPos;                       // store a ref to GO we will create as a child to Player & allow HitBox where we want
     [SerializeField] private LayerMask whatIsDamagable;                       // this will tell what all objects need to be detected as damagable & what not. 
 
     private bool gotInput, isAttacking, isFirstAttack;                        // hold the input from player so if player hit just before he is able to hit, the player will still hit once he is able to hit  
 
     private float lastInputTime = Mathf.NegativeInfinity;                     // will store last time player had attacked & mathf.negativeInfinity will always attack from the start of the game
-    private float[] attackDetails = new float[2];
+    private AttackDetails attackDetails;
     //Ref
     private Animator anim;                                                    // hold the ref to Animator component
     private PlayerController player;
@@ -69,8 +69,9 @@ public class PlayerCombatController : MonoBehaviour
     {
         Collider2D[] detectedObject = Physics2D.OverlapCircleAll(attackHitBoxPos.position, attack1Radius, whatIsDamagable);
 
-        attackDetails[0] = attack1Damage;
-        attackDetails[1] = transform.position.x;
+        attackDetails.damageAmount = attack1Damage;
+        attackDetails.position = transform.position;
+        attackDetails.stunDamageAmount = stunDamageAmount;
 
         foreach (Collider2D col in detectedObject)
         {
@@ -86,15 +87,15 @@ public class PlayerCombatController : MonoBehaviour
         anim.SetBool("attack1", false);
     }
 
-    private void Damage(float[] _attackDetails)
+    private void Damage(AttackDetails _attackDetails)
     {
         if (!player.GetDashStatus())
         {
             int direction;
 
-            playerStats.DecreaseHealth(attackDetails[0]);                                           // damage player here using attackDeatails[0]
+            playerStats.DecreaseHealth(attackDetails.damageAmount);                                           // damage player here using attackDeatails[0]
 
-            if (_attackDetails[1] < transform.position.x)
+            if (attackDetails.position.x < transform.position.x)
             {
                 direction = 1;
             }
