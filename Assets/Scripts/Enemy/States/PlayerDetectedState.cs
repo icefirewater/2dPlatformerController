@@ -10,6 +10,7 @@ public class PlayerDetectedState : State
     protected bool isPlayerInMaxAgroRange;
     protected bool performLongRangeAction;
     protected bool performCloseRangeAction;
+    protected bool isDetectingLedge;
 
     public PlayerDetectedState(Entity _entity, FiniteStateMachine _stateMachine, string _animBoolName, D_PlayerDetectedState _stateData) : base(_entity, _stateMachine, _animBoolName)
     {
@@ -49,6 +50,8 @@ public class PlayerDetectedState : State
     public override void DoChecks()
     {
         base.DoChecks();
+
+        isDetectingLedge = entity.CheckLedge();
 
         isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();               // check if Player is in minimum agro range of Enemy
         isPlayerInMaxAgroRange = entity.CheckPlayerInMaxAgroRange();               // check if Player is in maximum agro range of Enemy

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "newAssetMenu", menuName = "Data/State/Charged State" )]
+[CreateAssetMenu(fileName = "newAssetMenu", menuName = "Data/State Data/Charged State" )]
 
 public class D_ChargeState : ScriptableObject
 {

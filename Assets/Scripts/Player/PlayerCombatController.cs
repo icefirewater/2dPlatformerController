@@ -3,7 +3,7 @@
 public class PlayerCombatController : MonoBehaviour
 {
     [SerializeField] private bool combatEnabled;                              // control whether we want our character to Attack/Hit other GO or not 
-    [SerializeField] private float inputTimer, attack1Radius, attack1Damage;
+    [SerializeField] private float inputTimer, attack1Radius, attack1Damage, stunDamageAmount = 1f;
     [SerializeField] private Transform attackHitBoxPos;                       // store a ref to GO we will create as a child to Player & allow HitBox where we want
     [SerializeField] private LayerMask whatIsDamagable;                       // this will tell what all objects need to be detected as damagable & what not. 
 
@@ -71,6 +71,7 @@ public class PlayerCombatController : MonoBehaviour
 
         attackDetails.damageAmount = attack1Damage;
         attackDetails.position = transform.position;
+        attackDetails.stunDamageAmount = stunDamageAmount;
 
         foreach (Collider2D col in detectedObject)
         {
